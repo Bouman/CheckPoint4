@@ -33,7 +33,7 @@ function AppBar({ menu }) {
                 </li>
                 <li>
                   <button type="button" onClick={() => navigate("/register")}>
-                    S'enregistrer
+                    Inscription
                   </button>
                 </li>
               </>

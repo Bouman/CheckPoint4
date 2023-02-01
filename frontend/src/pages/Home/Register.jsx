@@ -80,7 +80,7 @@ function LoginPage() {
     </div>
   ) : (
     <div className="login-box">
-      <h2>Register</h2>
+      <h2>Inscription</h2>
       <form name="form" autoComplete="off" onSubmit={handleSubmit}>
         <div className="user-box">
           <input name="firstname" type="firstname" id="firstname" required />
@@ -120,7 +120,7 @@ function LoginPage() {
           <span />
           <span />
           <span />
-          Register
+          Enregistrer
         </button>
       </form>
     </div>

@@ -96,7 +96,7 @@ export default function LoginPage() {
           <span />
           <span />
           <span />
-          Submit
+          Se Connecter
         </button>
       </form>
     </div>
