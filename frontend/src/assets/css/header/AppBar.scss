@@ -4,7 +4,6 @@
 #navbar {
   background: linear-gradient(#243b55, #141e30);
   color: #679bcb;
-  position: fixed;
   top: 0;
   left: 0;
   height: 60px;
@@ -18,12 +17,12 @@
   text-align: center;
   width: 70%;
 }
-@media (max-width: 768px) {
+@media (max-width: 915px) {
   .nav-wrapper {
     width: 90%;
   }
 }
-@media (max-width: 638px) {
+@media (max-width: 715px) {
   .nav-wrapper {
     width: 100%;
   }
@@ -36,9 +35,19 @@
   height: 60px;
   letter-spacing: 1px;
   text-transform: uppercase;
+  button {
+    // Transparence du boutton
+    background-color: transparent;
+    background-repeat: no-repeat;
+    border: none;
+    cursor: pointer;
+    overflow: hidden;
+    outline: none;
+    // ==============
+  }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 915px) {
   .logo {
     /*       margin-left: 5px; */
   }
@@ -54,7 +63,7 @@
   transition: transform 0.5s ease-out;
   -webkit-transition: transform 0.5s ease-out;
 }
-@media (max-width: 640px) {
+@media (max-width: 715px) {
   #navbar ul {
     display: none;
   }
@@ -69,7 +78,15 @@
   display: inline-block;
 }
 
-#navbar li a {
+#navbar li button {
+  // Transparence du boutton
+  background-color: transparent;
+  background-repeat: no-repeat;
+  border: none;
+  cursor: pointer;
+  overflow: hidden;
+  outline: none;
+  // ==============
   color: rgb(13, 26, 38);
   display: block;
   font-size: 0.7em;
@@ -84,7 +101,7 @@
   -webkit-transition: all 0.5s ease;
 }
 
-#navbar li a:hover {
+#navbar li button:hover {
   /* border-bottom: 1px solid rgb(28, 121, 184); */
   color: rgb(28, 121, 184);
   transition: all 1s ease;
@@ -92,8 +109,8 @@
 }
 
 /* Animated Bottom Line */
-#navbar li a:before,
-#navbar li a:after {
+#navbar li button:before,
+#navbar li button:after {
   content: "";
   position: absolute;
   width: 0%;
@@ -102,24 +119,24 @@
   background: rgb(13, 26, 38);
 }
 
-#navbar li a:before {
+#navbar li button:before {
   left: 0;
   transition: 0.5s;
 }
 
-#navbar li a:after {
+#navbar li button:after {
   background: rgb(13, 26, 38);
   right: 0;
   /* transition: width 0.8s cubic-bezier(0.22, 0.61, 0.36, 1); */
 }
 
-#navbar li a:hover:before {
+#navbar li button:hover:before {
   background: rgb(13, 26, 38);
   width: 100%;
   transition: width 0.5s cubic-bezier((0.22, 0.61, 0.36, 1));
 }
 
-#navbar li a:hover:after {
+#navbar li button:hover:after {
   background: transparent;
   width: 100%;
   /* transition: 0s; */
@@ -128,7 +145,7 @@
 /*======================================================
                       Mobile Menu Menu Icon
     ======================================================*/
-@media (max-width: 640px) {
+@media (max-width: 715px) {
   .menuIcon {
     cursor: pointer;
     display: block;
@@ -327,7 +344,7 @@
   position: relative;
 }
 
-.overlay-menu li a {
+.overlay-menu li button {
   display: block;
   font-size: 1.8em;
   letter-spacing: 4px;
@@ -341,8 +358,8 @@
     transition: 0.2s opacity 0.2s ease-out; */
 }
 
-.overlay-menu li a:hover,
-.overlay-menu li a:active {
+.overlay-menu li button:hover,
+.overlay-menu li button:active {
   color: rgb(28, 121, 184);
   -webkit-transition: color 0.3s ease;
   transition: color 0.3s ease;

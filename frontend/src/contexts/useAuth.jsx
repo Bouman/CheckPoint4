@@ -10,6 +10,7 @@ export const useAuth = () => {
 };
 
 export function AuthProvider({ children }) {
+  const navigate = useNavigate();
   const [isLoaded, setIsLoaded] = useState(false);
   const [user, setUser] = useState({
     admin: null,
@@ -18,7 +19,6 @@ export function AuthProvider({ children }) {
     lastname: null,
     id: null,
   });
-  const navigate = useNavigate();
 
   useEffect(() => {
     // reconnexion peuple user

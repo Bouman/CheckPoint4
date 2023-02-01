@@ -1,10 +1,12 @@
 import PropTypes from "prop-types";
+import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../contexts/useAuth";
 import "../../assets/css/header/AppBar.scss";
 import "../../assets/js/header/AppBar";
 
 function AppBar({ menu }) {
   // CONST //
+  const navigate = useNavigate();
   const { user, logout } = useAuth();
 
   // RETURN //
@@ -15,9 +17,9 @@ function AppBar({ menu }) {
           {/* <!-- Navbar Logo --> */}
           <div className="logo">
             {/* <!-- Logo Placeholder for Inlustration --> */}
-            <a href="/">
+            <button type="button" onClick={() => navigate("/")}>
               <b>&#x202d;&lt;/&gt;💨</b>KATA-SR
-            </a>
+            </button>
           </div>
 
           {/* <!-- Navbar Links --> */}
@@ -25,10 +27,14 @@ function AppBar({ menu }) {
             {!user.email && (
               <>
                 <li>
-                  <a href="/login">Connexion</a>
+                  <button type="button" onClick={() => navigate("/login")}>
+                    Connexion
+                  </button>
                 </li>
                 <li>
-                  <a href="/register">S'enregistrer</a>
+                  <button type="button" onClick={() => navigate("/register")}>
+                    S'enregistrer
+                  </button>
                 </li>
               </>
             )}
@@ -36,15 +42,20 @@ function AppBar({ menu }) {
               <>
                 {menu?.map((page) => (
                   <li key={`li-desktop${page.label}`}>
-                    <a href={page.path} key={page.label} id={page.label}>
+                    <button
+                      type="button"
+                      onClick={() => navigate(page.path)}
+                      key={page.label}
+                      id={page.label}
+                    >
                       {page.label}
-                    </a>
+                    </button>
                   </li>
                 ))}
                 <li>
-                  <a href="/login" onClick={() => logout()}>
+                  <button type="button" onClick={() => logout()}>
                     Déconnexion
-                  </a>
+                  </button>
                 </li>
               </>
             )}
@@ -62,9 +73,14 @@ function AppBar({ menu }) {
         <ul id="menu">
           {menu?.map((page) => (
             <li key={`li-mobile${page.label}`}>
-              <a href={page.path} key={page.label} id={page.label}>
+              <button
+                type="button"
+                onClick={() => navigate(page.path)}
+                key={page.label}
+                id={page.label}
+              >
                 {page.label}
-              </a>
+              </button>
             </li>
           ))}
         </ul>
