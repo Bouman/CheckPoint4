@@ -1,10 +1,13 @@
-import * as React from "react";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../contexts/useAuth";
 import api from "../../services/api";
 import "../../assets/css/container/Login.scss";
 
 function LoginPage() {
   const { login } = useAuth();
+  const navigate = useNavigate();
+  const [errorConnect, setErrotConnect] = useState(false);
   const handleSubmit = (e) => {
     e.preventDefault();
     const inputEmail = e.target.email;
@@ -30,7 +33,7 @@ function LoginPage() {
           `${import.meta.env.VITE_BACKEND_URL}/register`,
           body
         );
-        
+
         if (resRegister.status === 201) {
           const body2 = { email, password };
           const reslogin = await api.apipostmysql(
@@ -58,7 +61,24 @@ function LoginPage() {
     }
   };
 
-  return (
+  return errorConnect ? (
+    <div id="popup-modal" tabIndex="-1" className="modal">
+      <div className="w-full max-w-md md:h-auto">
+        <div className="relative bg-white rounded-lg shadow">
+          <div className="p-6 text-center">
+            <h3 className="mb-5 text-lg font-normal text-gray-500">Erreur</h3>
+            <button
+              data-modal-hide="popup-modal"
+              type="button"
+              onClick={() => navigate("/login")}
+            >
+              Lors de la connexion
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  ) : (
     <div className="login-box">
       <h2>Register</h2>
       <form name="form" autoComplete="off" onSubmit={handleSubmit}>
