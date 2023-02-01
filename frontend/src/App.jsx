@@ -1,9 +1,10 @@
 import "./assets/css/App.css";
-import { useRoutes } from "react-router-dom";
+import { useRoutes, useLocation } from "react-router-dom";
 import { Suspense, useContext } from "react";
 import Loader from "@services/Loader";
 import { FolderContext } from "./contexts/Folder";
 import ErrorPage from "./pages/Error";
+import Spinner from "./components/Spinner";
 
 function App() {
   const { pages } = useContext(FolderContext);
@@ -19,7 +20,7 @@ function App() {
         {
           path: `${files.toLocaleLowerCase().replace("home", "/")}`,
           element: (
-            <Suspense fallback={<div>Loading...</div>}>
+            <Suspense fallback={<Spinner />}>
               <Loader foldername={`pages/${folder}`} filename={files} />
             </Suspense>
           ),
@@ -36,7 +37,7 @@ function App() {
           .replace("home", "")
           .replace("protected", "user")}`,
         element: (
-          <Suspense fallback={<div>Loading...</div>}>
+          <Suspense fallback={<Spinner />}>
             <Loader foldername="components" filename={`${folder}Layout`} />
           </Suspense>
         ),
@@ -48,6 +49,9 @@ function App() {
 
   /// On rajoute les components dans les sous-routes
   const element = useRoutes(routes);
+  const URL = useLocation().pathname + useLocation().search;
+  localStorage.setItem("location", URL);
+
   return element;
 }
 export default App;
