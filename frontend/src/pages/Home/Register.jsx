@@ -30,17 +30,23 @@ function LoginPage() {
           `${import.meta.env.VITE_BACKEND_URL}/register`,
           body
         );
+        
         if (resRegister.status === 201) {
           const body2 = { email, password };
           const reslogin = await api.apipostmysql(
             `${import.meta.env.VITE_BACKEND_URL}/login`,
             body2
           );
-          console.warn(reslogin);
-          login({
-            admin: 0,
-            email,
-          });
+          if (reslogin.status === 200) {
+            const jsonadmin = await reslogin.json();
+            login({
+              admin: jsonadmin.admin,
+              email,
+              id: jsonadmin.id,
+            });
+          } else {
+            setErrotConnect(true);
+          }
         }
       };
       sendForm();
