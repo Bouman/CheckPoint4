@@ -17,12 +17,12 @@
   text-align: center;
   width: 70%;
 }
-@media (max-width: 938px) {
+@media (max-width: 1065px) {
   .nav-wrapper {
     width: 90%;
   }
 }
-@media (max-width: 715px) {
+@media (max-width: 820px) {
   .nav-wrapper {
     width: 100%;
   }
@@ -47,7 +47,7 @@
   }
 }
 
-@media (max-width: 938px) {
+@media (max-width: 1065px) {
   .logo {
     /*       margin-left: 5px; */
   }
@@ -63,7 +63,7 @@
   transition: transform 0.5s ease-out;
   -webkit-transition: transform 0.5s ease-out;
 }
-@media (max-width: 715px) {
+@media (max-width: 820px) {
   #navbar ul {
     display: none;
   }
@@ -145,7 +145,7 @@
 /*======================================================
                       Mobile Menu Menu Icon
     ======================================================*/
-@media (max-width: 715px) {
+@media (max-width: 820px) {
   .menuIcon {
     cursor: pointer;
     display: block;

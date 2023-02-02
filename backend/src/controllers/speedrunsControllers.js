@@ -1,7 +1,7 @@
 const models = require("../models");
 
 const browse = (req, res) => {
-  models.users
+  models.speedruns
     .findAll()
     .then(([rows]) => {
       res.send(rows);
@@ -13,7 +13,7 @@ const browse = (req, res) => {
 };
 
 const read = (req, res) => {
-  models.users
+  models.speedruns
     .find(req.params.id, null)
     .then(([rows]) => {
       if (rows[0] == null) {
@@ -28,30 +28,15 @@ const read = (req, res) => {
     });
 };
 
-const login = (req, res, next) => {
-  models.users
-    .readForLogin(req.body)
-    .then(([users]) => {
-      if (users[0] != null) {
-        // eslint-disable-next-line prefer-destructuring
-        req.user = users[0];
-        next();
-      } else {
-        res.status(401).send("This mail doesn't exist in our database");
-      }
-    })
-    .catch((err) => {
-      console.error(err);
-      res.status(500).send("Error retrieving data from database");
-    });
-};
-
 const edit = (req, res) => {
-  const users = req.body;
+  const item = req.body;
+
   // TODO validations (length, format...)
-  users.id = parseInt(req.params.id, 10);
-  models.users
-    .update(users)
+
+  item.id = parseInt(req.params.id, 10);
+
+  models.speedruns
+    .update(item)
     .then(([result]) => {
       if (result.affectedRows === 0) {
         res.sendStatus(404);
@@ -66,11 +51,14 @@ const edit = (req, res) => {
 };
 
 const add = (req, res) => {
-  const users = req.body;
-  models.users
-    .insert(users)
+  const item = req.body;
+
+  // TODO validations (length, format...)
+
+  models.speedruns
+    .insert(item)
     .then(([result]) => {
-      res.location(`/user/${result.insertId}`).sendStatus(201);
+      res.location(`/items/${result.insertId}`).sendStatus(201);
     })
     .catch((err) => {
       console.error(err);
@@ -79,7 +67,7 @@ const add = (req, res) => {
 };
 
 const destroy = (req, res) => {
-  models.users
+  models.speedruns
     .delete(req.params.id)
     .then(([result]) => {
       if (result.affectedRows === 0) {
@@ -100,5 +88,4 @@ module.exports = {
   edit,
   add,
   destroy,
-  login,
 };

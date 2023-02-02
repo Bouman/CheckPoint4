@@ -4,6 +4,7 @@ import { FolderContext } from "../contexts/Folder";
 import { useAuth } from "../contexts/useAuth";
 import AppBar from "./header/AppBar";
 import FooterBar from "./footer/FooterBar";
+import "../assets/css/Layout.scss";
 
 export default function ProtectedLayout() {
   const { pages } = useContext(FolderContext);

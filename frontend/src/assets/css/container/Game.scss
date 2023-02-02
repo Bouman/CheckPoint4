@@ -16,6 +16,9 @@ main {
 .game {
   grid-area: game;
 }
+.game-wrapper {
+  width: 90%;
+}
 
 @media (max-width: 768px) {
   main {
@@ -43,4 +46,32 @@ main {
   }
   .codeflask__textarea {
   }
+}
+fieldset {
+  border: 5px solid transparent;
+  border-top-color: black;
+  box-sizing: border-box;
+  grid-area: 1 / 1;
+  padding: 20px;
+  width: inherit;
+}
+fieldset:nth-of-type(1) {
+  background: content-box center/contain no-repeat
+    url("photo-1588852065463-5de1411ea697?w=400");
+}
+fieldset:nth-of-type(2) {
+  transform: rotate(90deg);
+}
+fieldset:nth-of-type(3) {
+  transform: rotate(180deg);
+}
+fieldset:nth-of-type(4) {
+  transform: rotate(-90deg);
+}
+legend {
+  font: 15pt/0 "Averia Serif Libre";
+  padding: 0 4px;
+}
+fieldset:nth-of-type(3) > legend {
+  transform: rotate(180deg);
 }

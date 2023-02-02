@@ -75,7 +75,7 @@ function ProfilUser() {
       )}
 
       <div className="login-box">
-        <h2>Profile</h2>
+        <h2>Votre Profile</h2>
         <form autoComplete="off" onSubmit={handleSubmit}>
           <div className="user-box">
             <input

@@ -1,7 +1,7 @@
 const models = require("../models");
 
 const browse = (req, res) => {
-  models.users
+  models.katas
     .findAll()
     .then(([rows]) => {
       res.send(rows);
@@ -13,13 +13,13 @@ const browse = (req, res) => {
 };
 
 const read = (req, res) => {
-  models.users
-    .find(req.params.id, null)
+  models.katas
+    .find(req.params.id, "speedruns")
     .then(([rows]) => {
       if (rows[0] == null) {
         res.sendStatus(404);
       } else {
-        res.send(rows[0]);
+        res.send(rows);
       }
     })
     .catch((err) => {
@@ -29,12 +29,12 @@ const read = (req, res) => {
 };
 
 const login = (req, res, next) => {
-  models.users
+  models.katas
     .readForLogin(req.body)
-    .then(([users]) => {
-      if (users[0] != null) {
+    .then(([katas]) => {
+      if (katas[0] != null) {
         // eslint-disable-next-line prefer-destructuring
-        req.user = users[0];
+        req.user = katas[0];
         next();
       } else {
         res.status(401).send("This mail doesn't exist in our database");
@@ -47,11 +47,11 @@ const login = (req, res, next) => {
 };
 
 const edit = (req, res) => {
-  const users = req.body;
+  const katas = req.body;
   // TODO validations (length, format...)
-  users.id = parseInt(req.params.id, 10);
-  models.users
-    .update(users)
+  katas.id = parseInt(req.params.id, 10);
+  models.katas
+    .update(katas)
     .then(([result]) => {
       if (result.affectedRows === 0) {
         res.sendStatus(404);
@@ -66,9 +66,9 @@ const edit = (req, res) => {
 };
 
 const add = (req, res) => {
-  const users = req.body;
-  models.users
-    .insert(users)
+  const katas = req.body;
+  models.katas
+    .insert(katas)
     .then(([result]) => {
       res.location(`/user/${result.insertId}`).sendStatus(201);
     })
@@ -79,7 +79,7 @@ const add = (req, res) => {
 };
 
 const destroy = (req, res) => {
-  models.users
+  models.katas
     .delete(req.params.id)
     .then(([result]) => {
       if (result.affectedRows === 0) {

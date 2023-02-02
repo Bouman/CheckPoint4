@@ -44,24 +44,25 @@ export default function LoginPage() {
   useEffect(() => {}, [setErrotConnect]);
 
   return errorConnect ? (
-    <div id="popup-modal" tabIndex="-1" className="modal">
-      <div className="w-full max-w-md md:h-auto">
-        <div className="relative bg-white rounded-lg shadow">
-          <div className="p-6 text-center">
-            <h3 className="mb-5 text-lg font-normal text-gray-500">Erreur</h3>
-            <button
-              data-modal-hide="popup-modal"
-              type="button"
-              onClick={() => {
-                setErrotConnect(false);
-              }}
-            >
-              Essai encore !
-            </button>
-          </div>
+    <section className="modal">
+      <span className="overlay" />
+      <div className="modal-box">
+        <i className="fa-regular fa-circle-check" />
+        <h3>Erreur !</h3>
+        <p>Il faut réfléchir pour jouer à KATA-SR</p>
+        <div className="buttons">
+          <button
+            data-modal-hide="popup-modal"
+            type="button"
+            onClick={() => {
+              setErrotConnect(false);
+            }}
+          >
+            Essai encore !
+          </button>
         </div>
       </div>
-    </div>
+    </section>
   ) : (
     <div className="login-box">
       <h2>Login</h2>
