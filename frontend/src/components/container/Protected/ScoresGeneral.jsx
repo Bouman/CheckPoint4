@@ -18,13 +18,6 @@ function ScoresGeneral({ title }) {
 
   useEffect(() => {
     const getScoresData = async () => {
-      if (srSelected != null) {
-        // get the ALL scores by id speedrun
-        const getScores = await api.apigetmysql(
-          `${import.meta.env.VITE_BACKEND_URL}/scores/${srSelected}`
-        );
-        setAllScores(getScores);
-      }
       if (!AllSR.lenght) {
         // get the ALL SR
         const callsr = await api.apigetmysql(
@@ -33,6 +26,15 @@ function ScoresGeneral({ title }) {
         setAllSR(callsr);
         setIsLoaded(true);
       }
+      if (srSelected != null) {
+        // get the ALL scores by id speedrun
+        const getScores = await api.apigetmysql(
+          `${import.meta.env.VITE_BACKEND_URL}/scores/${srSelected}`
+        );
+        setAllScores(getScores);
+      } else {
+        setSrSelected(AllSR[0].id)
+      }
     };
     getScoresData(); // lance la fonction getScoresData
   }, [isLoaded, srSelected]);
@@ -40,23 +42,24 @@ function ScoresGeneral({ title }) {
   return (
     isLoaded && (
       <>
-        <h1>{title}</h1>
-        <label htmlFor="SR-select">Choisis ton SpeedRun :</label>
-        <select
-          key="addSRselect"
-          id="addSRselect"
-          onChange={HandlerSR}
-          required
-        >
-          <option key="select" value="">
-            Selectionne un SpeedRun
-          </option>
-          {AllSR.map((key) => (
-            <option key={key.id} id={key.id} value={key.id}>
-              {key.title}
-            </option>
-          ))}
-        </select>
+        <div className="scores-wrapper">
+          <h1>{title}</h1>
+          <div style={{ float: "right", padding: '1rem' }}>
+          <label htmlFor="SR-select">Choisis ton SpeedRun: </label><br/>
+          <select
+            key="addSRselect"
+            id="addSRselect"
+            onChange={HandlerSR}
+            required
+          >
+            {AllSR.map((key) => (
+              <option key={key.id} id={key.id} value={key.id}>
+                {key.title}
+              </option>
+            ))}
+          </select>
+          </div>
+        </div>
         {AllScores && (
           <div className="table-container">
             <div className="table-row heading">

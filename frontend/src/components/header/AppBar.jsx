@@ -21,21 +21,22 @@ function AppBar({ menu }) {
               <b>&#x202d;&lt;/&gt;💨</b>KATA-SR
             </button>
           </div>
-
           {/* <!-- Navbar Links --> */}
           <ul id="menu">
             {!user.email && (
               <>
-                <li>
-                  <button type="button" onClick={() => navigate("/login")}>
-                    Connexion
-                  </button>
-                </li>
-                <li>
-                  <button type="button" onClick={() => navigate("/register")}>
-                    Inscription
-                  </button>
-                </li>
+                {menu?.filter((item) => item.label !== "Home").map((page) => (
+                  <li key={`li-desktop${page.label}`}>
+                    <button
+                      type="button"
+                      onClick={() => navigate(page.path)}
+                      key={page.label}
+                      id={page.label}
+                    >
+                      {page.label}
+                    </button>
+                  </li>
+                ))}
               </>
             )}
             {user.email && (

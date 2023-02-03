@@ -5,12 +5,7 @@ export default function Counter() {
 
   return (
     <p>
-      <button
-        type="button"
-        onClick={() => setCount((oldCount) => oldCount + 1)}
-      >
-        count is: {count}
-      </button>
+        Une erreur est survenue !
     </p>
   );
 }
