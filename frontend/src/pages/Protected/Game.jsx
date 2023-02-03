@@ -90,6 +90,7 @@ function Scores() {
                 </ul>
                 <p>&nbsp;</p>
               <div>
+              <hr />
                 <form onSubmit={handleSubmit}>
                   <label htmlFor="SR-select">Choisis ton SpeedRun :</label>
                   <select
@@ -119,6 +120,7 @@ function Scores() {
                     </p>
                   ) : (
                     <div>
+                      <hr />
                       <p>
                         <button
                           type="button"
