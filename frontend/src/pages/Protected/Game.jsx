@@ -80,14 +80,13 @@ function Scores() {
           <section className="modal">
             <span className="overlay" />
             <div className="modal-box">
-              <i className="fa-regular fa-circle-check" />
               <h3>Pr&ecirc;t pour le Run ?&nbsp;😀&nbsp;</h3>
-                <p><span style="text-decoration: underline;"><em>R&egrave;gles</em></span> :</p>
-                <ul class="doted">
-                  <li class="doted">Les katas sont <strong>chronom&eacute;tr&eacute;</strong></li>
-                  <li class="doted">D&egrave;s le Button "<em><strong>Start</strong></em>" pr&eacute;ss&eacute; les katas s'encha&icirc;ne.</li>
-                  <li class="doted">Il faut toujours mettre le mot "<em><strong>return</strong></em>" &agrave; ta function.</li>
-                  <li class="doted">Il peut y avoir des indices partout (Titre du kata, description, ...)</li>
+                <p><em>Règles</em> :</p>
+                <ul className="doted">
+                  <li className="doted">Les katas sont <strong>chronom&eacute;tr&eacute;</strong></li>
+                  <li className="doted">D&egrave;s le Button "<em><strong>Start</strong></em>" pr&eacute;ss&eacute; les katas s'encha&icirc;ne.</li>
+                  <li className="doted">Il faut toujours mettre le mot "<em><strong>return</strong></em>" &agrave; ta function.</li>
+                  <li className="doted">Il peut y avoir des indices partout (Titre du kata, description, ...)</li>
                 </ul>
                 <p>&nbsp;</p>
               <div>

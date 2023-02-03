@@ -121,8 +121,8 @@ function GameFunction({ idTry, kata, speedrunid, lvl, setLVL }) {
                     .replace("iframe", "")
                     // .replace("join", "join()")
                     // .replace("split", "split()")
-                    .replace("reverse", "reverse()")
-                    .replace("toLowerCase", "toLowerCase()")
+                    // .replace("reverse", "reverse()")
+                    // .replace("toLowerCase", "toLowerCase()")
                 )
               }
               highlight={(highlightcode) =>
