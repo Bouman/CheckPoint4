@@ -166,6 +166,7 @@ function Scores() {
                   kata={katas[lvl]}
                   speedrunid={srSelected}
                   lvl={lvl}
+                  lvlmax={lvlmax}
                   setLVL={setLVL}
                 />
               </div>

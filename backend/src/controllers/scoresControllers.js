@@ -26,7 +26,6 @@ const read = (req, res) => {
 
   Promise.all([promise1, promise2])
     .then(() => {
-      console.log(scores);
       res
         .status(200)
         .json({ scores, katas });

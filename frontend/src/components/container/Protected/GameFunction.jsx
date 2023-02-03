@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import PropTypes from "prop-types";
+import PropTypes, { array, arrayOf } from "prop-types";
 import Editor from "react-simple-code-editor";
 import { highlight, languages } from "prismjs/components/prism-core";
 import "prismjs/components/prism-clike";
@@ -9,7 +9,7 @@ import api from "../../../services/api";
 import { useAuth } from "../../../contexts/useAuth";
 
 // Example style, you can use another
-function GameFunction({ idTry, kata, speedrunid, lvl, setLVL }) {
+function GameFunction({ idTry, kata, speedrunid, lvl, lvlmax, setLVL }) {
   const { user } = useAuth();
   const [resultat, setResultat] = useState("La tete à Toto");
   const [code, setCode] = useState(`return 0 + 0`);
@@ -48,7 +48,6 @@ function GameFunction({ idTry, kata, speedrunid, lvl, setLVL }) {
             brain_time: toHoursAndMinutes(time),
             exec_time: endTime - startTime,
           };
-          console.log(body);
           if (lvl === 0) {
             const putScores = async () => {
               const putscores = await api.apiputmysql(
@@ -58,6 +57,7 @@ function GameFunction({ idTry, kata, speedrunid, lvl, setLVL }) {
               if (putscores.status === 204) {
                 console.warn("Et un niveau de passé ! Bien joué !");
                 setTime(0);
+                setCode(`return`);
                 setLVL(lvl + 1);
               } else {
                 console.warn(
@@ -75,6 +75,7 @@ function GameFunction({ idTry, kata, speedrunid, lvl, setLVL }) {
               if (postscores.status === 201) {
                 console.warn("Et un niveau de passé ! Bien joué !");
                 setTime(0);
+                setCode(`return`);
                 setLVL(lvl + 1);
               } else {
                 console.warn(
@@ -104,7 +105,7 @@ function GameFunction({ idTry, kata, speedrunid, lvl, setLVL }) {
 
   return (
     <div className="game-wrapper">
-      <h1>{kata.title}</h1>
+      <h1>{kata.title}</h1><h2 style={{ float: "right" }} >Lvl: {lvl+1}/{lvlmax}</h2>
       <form onSubmit={handleSubmit}>
         <div>
           <fieldset>
@@ -132,7 +133,8 @@ function GameFunction({ idTry, kata, speedrunid, lvl, setLVL }) {
               maxLength={kata.limit_char > 0 ? kata.limit_char : null}
               style={{
                 fontFamily: '"Fira code", "Fira Mono", monospace',
-                fontSize: 12,
+                fontSize: 18,
+                backgroundColor: "whitesmoke",
               }}
             />
           </fieldset>
@@ -167,5 +169,8 @@ export default GameFunction;
 GameFunction.propTypes = {
   idTry: PropTypes.number.isRequired,
   lvl: PropTypes.number.isRequired,
+  lvlmax: PropTypes.number.isRequired,
   kata: PropTypes.object.isRequired,
 };
+
+

@@ -10,7 +10,6 @@ const hashPassword = async (req, res, next) => {
       t: 2,
       p: 1,
     });
-    // console.log(hashedPassword);
     req.body.hashedPassword = hashedPassword;
     delete req.body.password;
     next();

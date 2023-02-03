@@ -5,9 +5,7 @@ class AbstractManager {
 
   find(id, tableliaison) {
     if(tableliaison){
-      console.log(`SELECT * FROM ${this.table} INNER JOIN ${tableliaison}_${this.table} ON id_${tableliaison} = 1 WHERE ${tableliaison}_${this.table}.id_${this.table} = ${this.table}.id`);
-   
-        return this.connection.query(`SELECT * FROM ${this.table} INNER JOIN ${tableliaison}_${this.table} ON id_${tableliaison} = ? WHERE ${tableliaison}_${this.table}.id_${this.table} = ${this.table}.id`, [
+      return this.connection.query(`SELECT * FROM ${this.table} INNER JOIN ${tableliaison}_${this.table} ON id_${tableliaison} = ? WHERE ${tableliaison}_${this.table}.id_${this.table} = ${this.table}.id`, [
         id,
       ]);
     } else{
