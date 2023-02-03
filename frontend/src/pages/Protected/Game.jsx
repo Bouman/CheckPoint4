@@ -1,23 +1,46 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import api from "../../services/api";
 import GameDescription from "../../components/container/Protected/GameDescription";
 import GameFunction from "../../components/container/Protected/GameFunction";
 import "../../assets/css/container/Game.scss";
+import { useAuth } from "../../contexts/useAuth";
 
 function Scores() {
+  const { user } = useAuth();
+  const navigate = useNavigate();
   const [isLoaded, setisLoaded] = useState(false);
   const [showModal, setShowModal] = useState(true);
-  const [srSelected, setSrSelected] = useState("");
+  const [srSelected, setSrSelected] = useState(null);
   const [katas, setKatas] = useState([]);
   const [AllSR, setAllSR] = useState([]);
   const [lvl, setLVL] = useState(0);
+  const [lvlmax, setLvlmax] = useState(null);
+  const [idTry, setIdTry] = useState(null);
 
   const HandlerSR = (event) => {
     event.preventDefault();
     setSrSelected(event.target.value !== "" ? event.target.value : null);
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    const body = {
+      id_try: null,
+      id_users: user.id,
+      id_speedruns: null,
+      id_katas: null,
+      solution: null,
+      brain_time: null,
+      exec_time: null,
+    };
+    const setTry = async () => {
+      const startscores = await api
+        .apipostmysql(`${import.meta.env.VITE_BACKEND_URL}/scores`, body)
+        .then((res) => res.json());
+      setIdTry(startscores);
+    };
+    setTry();
     console.warn("Bonne chance");
     setShowModal(false);
   };
@@ -32,14 +55,19 @@ function Scores() {
         setAllSR(callsr);
         setisLoaded(true);
       }
-      console.log(srSelected);
-      if (srSelected != "") {
+      if (srSelected != null) {
         // get the ALL kata by id speedrun
         const callkatas = await api.apigetmysql(
           `${import.meta.env.VITE_BACKEND_URL}/katas/${srSelected}`
         );
         setKatas(callkatas);
-        setLVL(0);
+        setLvlmax(callkatas.length);
+      }
+      if (lvlmax === lvl) {
+        // get the ALL scores
+        const callscores = await api.apigetmysql(
+          `${import.meta.env.VITE_BACKEND_URL}/scores/${user.id}/${srSelected}`
+        );
       }
     };
     getAllApis();
@@ -77,11 +105,26 @@ function Scores() {
                       </option>
                     ))}
                   </select>
-                  {katas.length && (
-                    <div className="button">
-                      <button key="submit" type="submit">
+                  {katas.length ? (
+                    <p>
+                      <button
+                        style={{ float: "right" }}
+                        key="submit"
+                        type="submit"
+                      >
                         Start !
                       </button>
+                    </p>
+                  ) : (
+                    <div>
+                      <p>
+                        <button
+                          type="button"
+                          onClick={() => navigate("/user/scores")}
+                        >
+                          Retour en lieu sûr !
+                        </button>
+                      </p>
                     </div>
                   )}
                 </form>
@@ -89,16 +132,43 @@ function Scores() {
             </div>
           </section>
         )}
-        {katas.length && !showModal && (
-          <>
-            <div className="description">
-              <GameDescription kata={katas[lvl]} title="Description" />
-            </div>
-            <div className="game">
-              <GameFunction kata={katas[lvl]} speedrunid={srSelected} />
-            </div>
-          </>
-        )}
+        {idTry &&
+          katas.length &&
+          !showModal &&
+          (lvlmax === lvl && !showModal ? (
+            <section className="modal">
+              <span className="overlay" />
+              <div className="modal-box">
+                <i className="fa-regular fa-circle-check" />
+                <h3>Félicitation.</h3>
+                <p>Vous avez fini le Speed run !</p>
+                <p>Votre temps :</p>
+                <p>
+                  <button
+                    type="button"
+                    onClick={() => navigate("/user/scores")}
+                  >
+                    Allez voir les scores !
+                  </button>
+                </p>
+              </div>
+            </section>
+          ) : (
+            <>
+              <div className="description">
+                <GameDescription kata={katas[lvl]} title="Description" />
+              </div>
+              <div className="game">
+                <GameFunction
+                  idTry={idTry}
+                  kata={katas[lvl]}
+                  speedrunid={srSelected}
+                  lvl={lvl}
+                  setLVL={setLVL}
+                />
+              </div>
+            </>
+          ))}
       </>
     )
   );

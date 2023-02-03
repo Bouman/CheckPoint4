@@ -1,6 +1,7 @@
-import BasicPage from "../../components/container/BasicPage";
+import ScoresGeneral from "../../components/container/Protected/ScoresGeneral";
+import "../../assets/css/container/Scores.scss";
 
 function Scores() {
-  return <BasicPage title="Scores" />;
+  return <ScoresGeneral title="Scores" />;
 }
 export default Scores;

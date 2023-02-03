@@ -12,6 +12,7 @@ const usersControllers = require("./controllers/usersControllers");
 const speedApiControllers = require("./controllers/speedApiControllers");
 const speedrunControllers = require("./controllers/speedrunsControllers");
 const katasControllers = require("./controllers/katasControllers");
+const scoresControllers = require("./controllers/scoresControllers");
 // const itemControllers = require("./controllers/itemControllers");
 
 router.use(express.json());
@@ -33,5 +34,9 @@ router.delete("/users/:id", usersControllers.destroy);
 
 router.get("/sr", speedrunControllers.browse);
 router.get("/katas/:id", katasControllers.read);
+router.post("/scores", scoresControllers.add);
+router.put("/scores/:id", scoresControllers.edit);
+router.get("/scores/:id", scoresControllers.read);
+router.get("/katas/:iduser/:id", katasControllers.read);
 
 module.exports = router;

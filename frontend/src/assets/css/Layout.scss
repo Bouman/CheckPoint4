@@ -98,3 +98,53 @@ footer {
 .admin-tools-container {
   grid-area: admin-tools-container;
 }
+
+//button =======================
+
+button {
+  font-size: calc(10px + 2vmin);
+}
+form button {
+  // Transparence du boutton
+  background-color: transparent;
+  background-repeat: no-repeat;
+  border: none;
+  cursor: pointer;
+  overflow: hidden;
+  outline: none;
+  // ==============
+  position: relative;
+  display: inline-block;
+  padding: 10px 20px;
+  color: #03e9f4;
+  font-size: 16px;
+  text-decoration: none;
+  text-transform: uppercase;
+  overflow: hidden;
+  transition: 0.5s;
+  margin-top: 40px;
+  letter-spacing: 4px;
+}
+
+button:hover {
+  background: #679bcb;
+  color: #fff;
+  border-radius: 5px;
+  box-shadow: 0 0 5px #679bcb, 0 0 25px #679bcb, 0 0 50px #679bcb,
+    0 0 100px #679bcb;
+}
+
+button span {
+  position: absolute;
+  display: block;
+}
+
+button span:nth-child(1) {
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #03e9f4);
+  animation: btn-anim1 1s linear infinite;
+}
+// fin button =================

@@ -1,9 +1,11 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
 import "../../../assets/css/container/CardsGames.scss";
 import api from "../../../services/api";
 
 function CardsGames({ title }) {
+  const navigate = useNavigate();
   const [isLoaded, setIsLoaded] = useState(false);
   const [games, setGames] = useState({});
 
@@ -71,7 +73,7 @@ function CardsGames({ title }) {
         <div className="cards">
           {games.map((item) => {
             return (
-              <div className=" card [ is-collapsed ] ">
+              <div key={item.id} className=" card [ is-collapsed ] ">
                 <div
                   style={{
                     backgroundImage: `url(${item.assets["cover-medium"].uri}`,

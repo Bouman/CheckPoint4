@@ -2,22 +2,20 @@ import PropTypes from "prop-types";
 import "prismjs/themes/prism.css";
 
 function GameDescription({ kata, title }) {
-  console.log(kata);
   return (
     <div className="description">
       <h1>{title}</h1>
       <div className="game-wrapper">
-        <p>{kata.description}</p>
-        <p>{kata.result1}</p>
+        <p style={{ color: "grey" }}>{kata.description}</p>
+        <h2>Règles :</h2>
+        <p style={{ color: "grey" }}>{kata.rules}</p>
+        <p style={{ color: "grey" }}>{kata.result1}</p>
         <h2>Données :</h2>
         <pre>
-          <code>const ="</code>
+          <code style={{ color: "orange" }}>const data =</code>
         </pre>
         <pre>
-          <code>{kata.data1}</code>
-        </pre>
-        <pre>
-          <code>"</code>
+          <code style={{ color: "grey" }}>{kata.data1 ?? "NULL"}</code>
         </pre>
       </div>
     </div>

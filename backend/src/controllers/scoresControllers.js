@@ -1,7 +1,7 @@
 const models = require("../models");
 
 const browse = (req, res) => {
-  models.users
+  models.scores
     .findAll()
     .then(([rows]) => {
       res.send(rows);
@@ -13,14 +13,23 @@ const browse = (req, res) => {
 };
 
 const read = (req, res) => {
-  models.users
-    .find(req.params.id, null)
-    .then(([rows]) => {
-      if (rows[0] == null) {
-        res.sendStatus(404).clearCookie(process.env.NAME_COOKIE);
-      } else {
-        res.send(rows[0]);
-      }
+  let scores;
+  let katas;
+  const promise1 = models.scores.findscores(req.params.id).then(([rows]) => {
+    scores = rows;
+  });
+  const promise2 =
+     models.katas.find(req.params.id, "speedruns")
+    .then(([rowskatas]) => {
+      katas = rowskatas;
+  });
+
+  Promise.all([promise1, promise2])
+    .then(() => {
+      console.log(scores);
+      res
+        .status(200)
+        .json({ scores, katas });
     })
     .catch((err) => {
       console.error(err);
@@ -28,30 +37,12 @@ const read = (req, res) => {
     });
 };
 
-const login = (req, res, next) => {
-  models.users
-    .readForLogin(req.body)
-    .then(([users]) => {
-      if (users[0] != null) {
-        // eslint-disable-next-line prefer-destructuring
-        req.user = users[0];
-        next();
-      } else {
-        res.status(401).send("This mail doesn't exist in our database");
-      }
-    })
-    .catch((err) => {
-      console.error(err);
-      res.status(500).send("Error retrieving data from database");
-    });
-};
-
 const edit = (req, res) => {
-  const users = req.body;
+  const scores = req.body;
   // TODO validations (length, format...)
-  users.id = parseInt(req.params.id, 10);
-  models.users
-    .update(users)
+  scores.id = parseInt(req.params.id, 10);
+  models.scores
+    .update(scores)
     .then(([result]) => {
       if (result.affectedRows === 0) {
         res.sendStatus(404);
@@ -66,11 +57,13 @@ const edit = (req, res) => {
 };
 
 const add = (req, res) => {
-  const users = req.body;
-  models.users
-    .insert(users)
+  const scores = req.body;
+  // TODO validations (length, format...)
+  models.scores
+    .insert(scores)
     .then(([result]) => {
-      res.location(`/user/${result.insertId}`).sendStatus(201);
+      const id = result.insertId
+      res.status(201).json(id);
     })
     .catch((err) => {
       console.error(err);
@@ -79,7 +72,7 @@ const add = (req, res) => {
 };
 
 const destroy = (req, res) => {
-  models.users
+  models.scores
     .delete(req.params.id)
     .then(([result]) => {
       if (result.affectedRows === 0) {
@@ -100,5 +93,4 @@ module.exports = {
   edit,
   add,
   destroy,
-  login,
 };
