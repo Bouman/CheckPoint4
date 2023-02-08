@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Feb 03, 2023 at 12:45 PM
+-- Generation Time: Feb 08, 2023 at 10:11 AM
 -- Server version: 10.5.18-MariaDB-0+deb11u1
 -- PHP Version: 8.2.0
 
@@ -12,371 +12,182 @@ START TRANSACTION;
 SET time_zone = "+00:00";
 
 --
--- Database: `makesense`
+-- Database: `katasr`
 --
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `comments`
+-- Table structure for table `katas`
 --
 
-CREATE TABLE `comments` (
+CREATE TABLE `katas` (
   `id` int(11) NOT NULL,
-  `text` text CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
-  `date_creation` datetime NOT NULL DEFAULT current_timestamp(),
-  `id_user_writer` int(11) NOT NULL,
-  `id_decision` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `title` varchar(25) NOT NULL,
+  `description` text NOT NULL,
+  `rules` varchar(255) NOT NULL,
+  `limit_char` int(11) NOT NULL,
+  `data1` varchar(255) DEFAULT NULL,
+  `result1` varchar(255) NOT NULL,
+  `data2` varchar(255) DEFAULT NULL,
+  `result2` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
--- Dumping data for table `comments`
+-- Dumping data for table `katas`
 --
 
-INSERT INTO `comments` (`id`, `text`, `date_creation`, `id_user_writer`, `id_decision`) VALUES
-(44, 'J\'aime bien l\'idée !', '2023-01-30 16:36:32', 44, 121),
-(45, 'Je suis totalement d\'accord!', '2023-01-31 10:22:35', 40, 176),
-(46, 'J\'aime beaucoup l\'idée !', '2023-02-03 13:31:57', 45, 175),
-(47, 'J\'adore l\'idée même !', '2023-02-03 13:32:05', 45, 175),
-(48, 'Je commente pour voir comment ça rend. ', '2023-02-03 13:32:11', 45, 175),
-(49, 'Au final je trouve que ça rend pas trop mal. ', '2023-02-03 13:32:17', 45, 175),
-(50, 'Par contre il faut beaucoup écrire pour voir le résultat. ', '2023-02-03 13:32:28', 45, 175),
-(51, 'Il faudrait peut être aussi tester de mettre beaucoup beaucoup de texte. ', '2023-02-03 13:32:38', 45, 175);
+INSERT INTO `katas` (`id`, `title`, `description`, `rules`, `limit_char`, `data1`, `result1`, `data2`, `result2`) VALUES
+(1, 'Kata qui retourne !', 'Ce kata est le premier créé lors de ce projet, il est si simple.\n', 'La function doit retourné (en string) :', 0, ' ######  ########  \n##    ## ##     ## \n## KATA  ## -SR ## \n ######  ########  \n      ## ##   ##   \n##    ## ##    ##  \n ######  ##     ## ', 'KATA-SR', 'KATA-SR', 'KATA-SR'),
+(2, 'C\'est court !', 'La fonction doit retourner 50 si data est null ou undefined, sinon elle doit retourner la valeur de data.', 'Vous n\'avez que 100 charactères disponible.', 100, NULL, '50', '15', '15'),
+(3, 'A l\'envers !', 'La fonction doit retourner le string data à l\'envers en minuscule.', 'Vous avez que 100 characteres disponible.\n', 100, 'WildCodeSchool', 'loohcsedocdliw', 'AbcdEfg', 'gfedcba'),
+(4, 'Comme la Nintendo 64 x 2!', 'Grace à la fonction nous devons retrouver le nom de domaine cacher dans la data.', 'Vous avez que 100 characteres disponible.', 100, 'WVdOMGRTMXNZVzR1WTI5dA==', 'actu-lan.com', 'WVhOemJ5MXlaWE53WVhkdUxtWnk=', 'asso-respawn.fr'),
+(8, 'Kata qui retourne !', 'Ce kata est le premier créé lors de ce projet, il est si simple.\n', 'A partir de data la function doit retourné en seulement 34 :', 34, ' ######  ########  \n##    ## ##     ## \n## KATA  ## -SR ## \n ######  ########  \n      ## ##   ##   \n##    ## ##    ##  \n ######  ##     ## ', 'KATA-SR', ' ######  ########  \n##    ## ##     ## \n## KATA  ## -SR ## \n ######  ########  \n      ## ##   ##   \n##    ## ##    ##  \n ######  ##     ## ', 'KATA-SR'),
+(9, 'C\'est court !', 'La fonction doit retourner 50 si ma data est null ou undefined, sinon elle doit retourner la valeur de data.', 'Vous n\'avez que 16 charactères disponible.', 16, NULL, '50', '15', '15'),
+(10, 'A l\'envers !', 'La fonction doit retourner le string data à l\'envers en minuscule.', 'Vous avez que 49 characteres disponible.', 49, 'WildCodeSchool', 'loohcsedocdliw', 'AbcdEfg', 'gfedcba'),
+(11, 'Comme la Nintendo !', 'Grace à la fonction nous devons retrouver le nom de domaine cacher dans la data.', 'Vous avez que 23 characteres disponible.', 23, 'WVdOMGRTMXNZVzR1WTI5dA==', 'actu-lan.com', 'WVhOemJ5MXlaWE53WVhkdUxtWnk=', 'asso-respawn.fr');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `decisions`
+-- Table structure for table `scores`
 --
 
-CREATE TABLE `decisions` (
+CREATE TABLE `scores` (
   `id` int(11) NOT NULL,
-  `content` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL CHECK (json_valid(`content`)),
-  `status` int(11) NOT NULL DEFAULT 1 COMMENT '1: En attente d''avis\r\n2: En attente première décision\r\n3: En conflit\r\n4: Décision définitive prise\r\n5: Décision archivées(au bout de 3 mois)\r\n6: Décision non aboutie',
-  `id_user_creator` int(11) DEFAULT NULL,
-  `date_created` datetime NOT NULL DEFAULT current_timestamp(),
-  `date_update` datetime NOT NULL DEFAULT current_timestamp(),
-  `dates` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT 'Prise de décision commencée : automatiquement incrémenté.\r\n- fin de la prise des avis\r\n- fin de la première décision\r\n- fin du conflit sur la première décision\r\n- décision définitive'
+  `id_try` int(11) DEFAULT NULL,
+  `id_users` int(11) DEFAULT NULL,
+  `id_speedruns` int(11) DEFAULT NULL,
+  `id_katas` int(11) DEFAULT NULL,
+  `solution` text DEFAULT NULL,
+  `brain_time` time DEFAULT NULL,
+  `exec_time` time(4) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
--- Dumping data for table `decisions`
+-- Dumping data for table `scores`
 --
 
-INSERT INTO `decisions` (`id`, `content`, `status`, `id_user_creator`, `date_created`, `date_update`, `dates`) VALUES
-(119, '{\"title\":\"Trouver de nouveaux locaux\",\"description\":\"<p>Il faut trouver de nouveaux locaux car nous sommes trop à l\'étroit !</p>\",\"utility\":\"<p>Avoir plus de place.</p>\",\"context\":\"<p>Nous sommes actuellement dans des locaux trop petits.</p>\",\"pros\":\"<p>Avoir plus de place.</p>\",\"cons\":\"<ul><li>déménagement</li><li>ça va coûter cher</li></ul>\",\"firstDate\":\"2023-01-19T15:49:04.155Z\",\"dateOpinion\":\"2023-01-20T15:49:04.000Z\",\"dateFirstDecision\":\"2023-01-20T15:49:04.000Z\",\"dateEndConflict\":\"2023-01-21T15:49:04.000Z\",\"dateFinaleDecision\":\"2023-01-22T15:49:04.000Z\"}', 4, 7, '2023-01-19 16:55:53', '2023-01-19 16:55:53', NULL),
-(121, '{\"title\":\"menu végétarien \",\"description\":\"<p>MENU VEGE</p>\",\"utility\":\"<p>Nous entrons dans une ère où il est important de mieux consommer ce que nous mangeons.</p>\",\"context\":\"<ul><li>Réduire la consommation de viande de chacun des salariés.</li><li>Faire des économies.</li><li>Consommer mieux.</li></ul>\",\"pros\":\"<ol><li>Santé des salariés</li><li>Economies</li><li>Variété de choix</li><li>Respect des croyances</li></ol>\",\"cons\":\"<ul><li>Acceptation par les employés.</li></ul>\",\"firstDate\":\"2023-01-24T08:45:08.478Z\",\"dateOpinion\":\"2023-02-03T08:45:08.000Z\",\"dateFirstDecision\":\"2023-02-04T08:45:08.000Z\",\"dateEndConflict\":\"2023-02-23T08:45:08.000Z\",\"dateFinaleDecision\":\"2023-03-31T07:45:08.000Z\"}', 2, 7, '2023-01-24 09:47:13', '2023-01-28 18:21:28', NULL),
-(129, '{\"title\":\"La couleur des coussins du canapé\",\"description\":\"<p>J\'aimerais qu\'on change la couleur des coussins du canapé de la salle de pause</p>\",\"utility\":\"<p>Je trouve qu\'ils sont moches</p>\",\"context\":\"<p>Plus de gaieté</p>\",\"pros\":\"<p>Plus de style</p>\",\"cons\":\"<p>Cela coûte cher</p>\",\"firstDate\":\"2023-01-25T10:35:59.760Z\",\"dateOpinion\":\"2023-02-04T10:35:59.000Z\",\"dateFirstDecision\":\"2023-02-04T10:35:59.000Z\",\"dateEndConflict\":\"2023-02-11T10:35:59.000Z\",\"dateFinaleDecision\":\"2023-02-25T10:35:59.000Z\"}', 4, 40, '2023-01-25 11:38:37', '2023-01-30 14:13:37', NULL),
-(161, '{\"title\":\"Café gratuit\",\"description\":\"<p>Nous voulons du café gratuit</p>\",\"utility\":\"<p>SVP</p>\",\"context\":\"<p>Petite pensée à Karine</p>\",\"pros\":\"<p>Pour les futurs Wilders</p>\",\"cons\":\"<p>Mais maintenant c\'est trop tard</p>\",\"firstDate\":\"2023-01-25T16:13:58.621Z\",\"dateOpinion\":\"2023-02-04T16:13:58.000Z\",\"dateFirstDecision\":\"2023-02-04T16:13:58.000Z\",\"dateEndConflict\":\"2023-02-11T16:13:58.000Z\",\"dateFinaleDecision\":\"2023-02-11T16:13:58.000Z\"}', 5, 40, '2023-01-25 17:15:18', '2023-01-30 14:11:40', NULL),
-(175, '{\"title\":\"Changer un four à micro-ondes\",\"description\":\"<p>Le four à micro-ondes ne fonctionne plus depuis un certain temps il serait bien de le changer.</p>\",\"utility\":\"<p>Nous sommes 20 salariés à manger sur place et nous n\'avons plus de quoi réchauffer nos plats.</p>\",\"context\":\"<p>Pouvoir manger chaud.</p>\",\"pros\":\"<p>Meilleur environnement de travail pour les salariés.</p>\",\"cons\":\"<p>Coût financier.</p>\",\"firstDate\":\"2023-01-30T13:14:05.656Z\",\"dateOpinion\":\"2023-02-02T13:14:05.000Z\",\"dateFirstDecision\":\"2023-02-03T13:14:05.000Z\",\"dateEndConflict\":\"2023-02-04T13:14:05.000Z\",\"dateFinaleDecision\":\"2023-02-11T13:14:05.000Z\"}', 2, 40, '2023-01-30 14:16:16', '2023-01-30 14:50:13', NULL),
-(176, '{\"title\":\"Terminer le vendredi à midi !\",\"description\":\"<p>J\'aimerais que nous terminions le vendredi à 12 heures plutôt qu\'à 17 heures.</p>\",\"utility\":\"<p>Les salariés seraient plus contents. </p>\",\"context\":\"<p>On travaille clairement trop et le vendredi après-midi est fait pour se reposer. </p>\",\"pros\":\"<p>Avoir plus de temps pour soi !</p>\",\"cons\":\"<p>Franchement, je n\'en vois pas. </p>\",\"firstDate\":\"2023-01-30T13:51:40.647Z\",\"dateOpinion\":\"2023-01-31T13:51:40.647Z\",\"dateFirstDecision\":\"2023-01-31T13:51:40.647Z\",\"dateEndConflict\":\"2023-01-31T13:51:40.647Z\",\"dateFinaleDecision\":\"2023-01-31T13:51:40.647Z\"}', 4, 44, '2023-01-30 14:53:09', '2023-01-30 15:19:24', NULL),
-(177, '{\"title\":\"J\'essaie de poster une décision depuis le mobile\",\"description\":\"<p>J\'essaie de poster une décision depuis le mobile</p>\",\"utility\":\"<p>J\'essaie de poster une décision depuis le mobile</p>\",\"context\":\"<p>J\'essaie de poster une décision depuis le mobile</p>\",\"pros\":\"<p>J\'essaie de poster une décision depuis le mobile</p>\",\"cons\":\"<p>J\'essaie de poster une décision depuis le mobile</p>\",\"firstDate\":\"2023-01-30T15:37:38.132Z\",\"dateOpinion\":\"2023-01-31T15:37:38.132Z\",\"dateFirstDecision\":\"2023-01-31T15:37:38.132Z\",\"dateEndConflict\":\"2023-01-31T15:37:38.132Z\",\"dateFinaleDecision\":\"2023-01-31T15:37:38.132Z\"}', 4, 44, '2023-01-30 16:38:26', '2023-01-30 16:38:26', NULL);
+INSERT INTO `scores` (`id`, `id_try`, `id_users`, `id_speedruns`, `id_katas`, `solution`, `brain_time`, `exec_time`) VALUES
+(1, 1, 10, 1, 1, 'return \"KATA-SR\"', '00:00:07', '00:00:00.1000'),
+(3, NULL, 10, NULL, NULL, NULL, NULL, NULL),
+(4, NULL, 10, NULL, NULL, NULL, NULL, NULL),
+(5, 5, 10, 1, 1, 'return \"KATA-SR\"', '00:00:07', '00:00:00.0000'),
+(7, NULL, 10, NULL, NULL, NULL, NULL, NULL),
+(8, NULL, 10, NULL, NULL, NULL, NULL, NULL),
+(9, NULL, 10, NULL, NULL, NULL, NULL, NULL),
+(10, 10, 10, 1, 1, 'return \"KATA-SR\"', '00:00:09', '00:00:00.1000'),
+(11, 11, 10, 1, 1, 'return \"KATA-SR\"', '00:00:08', '00:00:00.0000'),
+(12, 12, 10, 1, 1, 'return \"KATA-SR\"', '00:00:07', '00:00:00.0999'),
+(13, 13, 10, 1, 1, 'return \"KATA-SR\"', '00:00:08', '00:00:00.0000'),
+(14, NULL, 10, NULL, NULL, NULL, NULL, NULL),
+(15, NULL, 10, NULL, NULL, NULL, NULL, NULL),
+(16, NULL, 10, NULL, NULL, NULL, NULL, NULL),
+(17, NULL, 10, NULL, NULL, NULL, NULL, NULL),
+(18, NULL, 10, NULL, NULL, NULL, NULL, NULL),
+(19, 19, 10, 1, 1, 'return \"KATA-SR\"', '00:02:26', '00:00:00.0000'),
+(20, 20, 10, 1, 1, 'return \"KATA-SR\"', '00:00:06', '00:00:00.0000'),
+(21, 21, 10, 1, 1, 'return \"KATA-SR\"', '00:00:07', '00:00:00.0000'),
+(22, 22, 10, 1, 1, 'return \"KATA-SR\"', '00:00:07', '00:00:00.0000'),
+(23, 22, 10, 1, 2, 'return data??=50', '00:00:23', '00:00:00.0999'),
+(24, 24, 10, 1, 1, 'return \"KATA-SR\"', '00:00:07', '00:00:00.0000'),
+(25, 24, 10, 1, 2, 'return data??=50', '00:01:31', '00:00:00.0000'),
+(26, 24, 10, 1, 3, 'return data.split(\"\").reverse().join(\"\").toLowerCase()', '00:01:39', '00:00:00.0000'),
+(27, 27, 10, 1, 1, 'return \"KATA-SR\"', '00:00:07', '00:00:00.0000'),
+(28, 27, 10, 1, 2, 'return data??=50', '00:00:20', '00:00:00.0999'),
+(29, 27, 10, 1, 3, 'return data.split(\"\").reverse().join(\"\").toLowerCase()', '00:00:52', '00:00:00.1000'),
+(30, 27, 10, 1, 4, 'return decodeURIComponent(escape(window.atob(decodeURIComponent(escape(window.atob(data))))))', '00:00:10', '00:00:00.2000'),
+(31, 31, 10, 1, 1, 'return \"KATA-SR\"', '00:00:40', '00:00:00.0999'),
+(32, NULL, 10, NULL, NULL, NULL, NULL, NULL),
+(33, NULL, 10, NULL, NULL, NULL, NULL, NULL),
+(34, NULL, 10, NULL, NULL, NULL, NULL, NULL),
+(35, NULL, 10, NULL, NULL, NULL, NULL, NULL),
+(36, NULL, 10, NULL, NULL, NULL, NULL, NULL),
+(37, NULL, 10, NULL, NULL, NULL, NULL, NULL),
+(38, 38, 10, 1, 1, 'return \"KATA-SR\"', '00:00:07', '00:00:00.0999'),
+(39, 38, 10, 1, 2, 'return data??=50', '00:00:10', '00:00:00.1000'),
+(40, 40, 10, 1, 1, 'return \"KATA-SR\"', '00:00:09', '00:00:00.0000'),
+(41, 40, 10, 1, 2, 'return data??=50', '00:00:30', '00:00:00.0999'),
+(42, 40, 10, 1, 3, 'return data.split(\"\").reverse().join(\"\").toLowerCase()', '00:01:13', '00:00:00.0000'),
+(43, 40, 10, 1, 4, 'let x=(y)=>decodeURI(atob(y));return x(x(data))', '00:00:39', '00:00:00.1999'),
+(44, 44, 10, 1, 1, 'return \"KATA-SR\"', '00:00:06', '00:00:00.0999'),
+(45, 44, 10, 1, 2, 'return data??=50', '00:00:17', '00:00:00.1000'),
+(46, 46, 10, 1, 1, 'return \"KATA-SR\"', '00:00:07', '00:00:00.1999'),
+(47, 46, 10, 1, 2, 'return data??=50', '00:00:10', '00:00:00.0999'),
+(48, 46, 10, 1, 3, 'return [...data].reverse().join(\"\").toLowerCase()', '00:04:04', '00:00:00.0999'),
+(49, 49, 10, 2, 8, 'return \"KATA-SR\"', '00:00:15', '00:00:00.0999'),
+(50, NULL, 10, NULL, NULL, NULL, NULL, NULL),
+(51, NULL, 10, NULL, NULL, NULL, NULL, NULL),
+(52, NULL, 10, NULL, NULL, NULL, NULL, NULL),
+(53, 53, 12, 1, 1, 'return \"KATA-SR\"', '00:00:33', '00:00:00.1000'),
+(54, 53, 12, 1, 2, 'return !data ? 50 : data', '00:01:55', '00:00:00.0000'),
+(55, 53, 12, 1, 3, 'return data.split(\"\").reverse().join(\"\").toLowerCase()', '00:02:58', '00:00:00.1000'),
+(56, 53, 12, 1, 4, 'return atob(atob(data))', '00:01:04', '00:00:00.1999'),
+(57, NULL, 12, NULL, NULL, NULL, NULL, NULL),
+(58, 58, 12, 1, 1, 'return \"KATA-SR\"', '00:02:24', '00:00:00.0999'),
+(59, 58, 12, 1, 2, 'return data === null ? 50 : data', '00:01:14', '00:00:00.1000'),
+(60, 60, 12, 1, 1, 'return \"KATA-SR\"', '00:00:13', '00:00:00.0000'),
+(61, 61, 13, 1, 1, 'return \"KATA-SR\"', '00:01:23', '00:00:00.1000'),
+(62, 61, 13, 1, 2, 'return data ? data : 50', '00:00:59', '00:00:00.0999'),
+(63, 61, 13, 1, 3, 'return data.split(\"\").reverse().join(\"\").toLowerCase()', '00:01:47', '00:00:00.1000'),
+(64, 61, 13, 1, 4, 'const n = atob(data); return atob(n)', '00:04:12', '00:00:00.1000'),
+(65, NULL, 13, NULL, NULL, NULL, NULL, NULL),
+(66, NULL, 13, NULL, NULL, NULL, NULL, NULL),
+(67, NULL, 13, NULL, NULL, NULL, NULL, NULL),
+(68, 68, 10, 1, 1, 'return \"KATA-SR\"', '00:00:30', '00:00:00.1000'),
+(69, 68, 10, 1, 2, 'return data ? data : 50', '00:00:33', '00:00:00.1000'),
+(70, 68, 10, 1, 3, 'return data.split(\"\").reverse().join(\"\").toLowerCase()', '00:00:47', '00:00:00.0000'),
+(71, 68, 10, 1, 4, 'return atob(atob(data))', '00:00:56', '00:00:00.1000'),
+(72, 72, 10, 2, 8, 'return \"KATA-SR\"', '00:00:08', '00:00:00.1000'),
+(73, 73, 10, 2, 8, 'return \"KATA-SR\"', '00:01:01', '00:00:00.1000'),
+(74, 73, 10, 2, 9, 'return data??=50', '00:00:42', '00:00:00.0999'),
+(75, 73, 10, 2, 10, 'return [...data].reverse().join(\"\").toLowerCase()', '00:04:39', '00:00:00.0000'),
+(76, 73, 10, 2, 11, 'return atob(atob(data))', '00:01:46', '00:00:00.0000');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `decisions_experts`
+-- Table structure for table `speedruns`
 --
 
-CREATE TABLE `decisions_experts` (
-  `id_decisions` int(11) NOT NULL,
-  `id_user_expert` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
-
---
--- Dumping data for table `decisions_experts`
---
-
-INSERT INTO `decisions_experts` (`id_decisions`, `id_user_expert`) VALUES
-(177, 7);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `decisions_g_experts`
---
-
-CREATE TABLE `decisions_g_experts` (
-  `id_decisions` int(11) NOT NULL,
-  `id_g_expert` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `decisions_g_experts`
---
-
-INSERT INTO `decisions_g_experts` (`id_decisions`, `id_g_expert`) VALUES
-(167, 56),
-(168, 56),
-(170, 59),
-(171, 59),
-(172, 62),
-(173, 56),
-(174, 59);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `decisions_g_impacts`
---
-
-CREATE TABLE `decisions_g_impacts` (
-  `id_decisions` int(11) NOT NULL,
-  `id_g_impact` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `decisions_g_impacts`
---
-
-INSERT INTO `decisions_g_impacts` (`id_decisions`, `id_g_impact`) VALUES
-(162, 7),
-(167, 59),
-(170, 58),
-(171, 59),
-(172, 62),
-(173, 59),
-(173, 58),
-(174, 58),
-(174, 56),
-(177, 58);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `decisions_impacts`
---
-
-CREATE TABLE `decisions_impacts` (
-  `id_decisions` int(11) NOT NULL,
-  `id_user_impact` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
-
---
--- Dumping data for table `decisions_impacts`
---
-
-INSERT INTO `decisions_impacts` (`id_decisions`, `id_user_impact`) VALUES
-(177, 44);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `groups`
---
-
-CREATE TABLE `groups` (
+CREATE TABLE `speedruns` (
   `id` int(11) NOT NULL,
-  `name` varchar(45) NOT NULL
+  `title` varchar(25) NOT NULL,
+  `difficulty` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
--- Dumping data for table `groups`
+-- Dumping data for table `speedruns`
 --
 
-INSERT INTO `groups` (`id`, `name`) VALUES
-(58, 'CA');
+INSERT INTO `speedruns` (`id`, `title`, `difficulty`) VALUES
+(1, 'Premier SpeedRun (Facile)', 1),
+(2, 'Premier SpeedRun (Hard)', 5);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `group_user`
+-- Table structure for table `speedruns_katas`
 --
 
-CREATE TABLE `group_user` (
-  `id_groups` int(11) NOT NULL,
-  `id_user` int(11) NOT NULL
+CREATE TABLE `speedruns_katas` (
+  `id_speedruns` int(11) NOT NULL,
+  `id_katas` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
--- Dumping data for table `group_user`
+-- Dumping data for table `speedruns_katas`
 --
 
-INSERT INTO `group_user` (`id_groups`, `id_user`) VALUES
-(58, 44);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `languages`
---
-
-CREATE TABLE `languages` (
-  `id` int(11) NOT NULL,
-  `name` char(49) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
-  `iso_639_1` char(2) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
-
---
--- Dumping data for table `languages`
---
-
-INSERT INTO `languages` (`id`, `name`, `iso_639_1`) VALUES
-(1, 'English', 'en'),
-(2, 'Afar', 'aa'),
-(3, 'Abkhazian', 'ab'),
-(4, 'Afrikaans', 'af'),
-(5, 'Amharic', 'am'),
-(6, 'Arabic', 'ar'),
-(7, 'Assamese', 'as'),
-(8, 'Aymara', 'ay'),
-(9, 'Azerbaijani', 'az'),
-(10, 'Bashkir', 'ba'),
-(11, 'Belarusian', 'be'),
-(12, 'Bulgarian', 'bg'),
-(13, 'Bihari', 'bh'),
-(14, 'Bislama', 'bi'),
-(15, 'Bengali/Bangla', 'bn'),
-(16, 'Tibetan', 'bo'),
-(17, 'Breton', 'br'),
-(18, 'Catalan', 'ca'),
-(19, 'Corsican', 'co'),
-(20, 'Czech', 'cs'),
-(21, 'Welsh', 'cy'),
-(22, 'Danish', 'da'),
-(23, 'German', 'de'),
-(24, 'Bhutani', 'dz'),
-(25, 'Greek', 'el'),
-(26, 'Esperanto', 'eo'),
-(27, 'Spanish', 'es'),
-(28, 'Estonian', 'et'),
-(29, 'Basque', 'eu'),
-(30, 'Persian', 'fa'),
-(31, 'Finnish', 'fi'),
-(32, 'Fiji', 'fj'),
-(33, 'Faeroese', 'fo'),
-(34, 'French', 'fr'),
-(35, 'Frisian', 'fy'),
-(36, 'Irish', 'ga'),
-(37, 'Scots/Gaelic', 'gd'),
-(38, 'Galician', 'gl'),
-(39, 'Guarani', 'gn'),
-(40, 'Gujarati', 'gu'),
-(41, 'Hausa', 'ha'),
-(42, 'Hindi', 'hi'),
-(43, 'Croatian', 'hr'),
-(44, 'Hungarian', 'hu'),
-(45, 'Armenian', 'hy'),
-(46, 'Interlingua', 'ia'),
-(47, 'Interlingue', 'ie'),
-(48, 'Inupiak', 'ik'),
-(49, 'Indonesian', 'in'),
-(50, 'Icelandic', 'is'),
-(51, 'Italian', 'it'),
-(52, 'Hebrew', 'iw'),
-(53, 'Japanese', 'ja'),
-(54, 'Yiddish', 'ji'),
-(55, 'Javanese', 'jw'),
-(56, 'Georgian', 'ka'),
-(57, 'Kazakh', 'kk'),
-(58, 'Greenlandic', 'kl'),
-(59, 'Cambodian', 'km'),
-(60, 'Kannada', 'kn'),
-(61, 'Korean', 'ko'),
-(62, 'Kashmiri', 'ks'),
-(63, 'Kurdish', 'ku'),
-(64, 'Kirghiz', 'ky'),
-(65, 'Latin', 'la'),
-(66, 'Lingala', 'ln'),
-(67, 'Laothian', 'lo'),
-(68, 'Lithuanian', 'lt'),
-(69, 'Latvian/Lettish', 'lv'),
-(70, 'Malagasy', 'mg'),
-(71, 'Maori', 'mi'),
-(72, 'Macedonian', 'mk'),
-(73, 'Malayalam', 'ml'),
-(74, 'Mongolian', 'mn'),
-(75, 'Moldavian', 'mo'),
-(76, 'Marathi', 'mr'),
-(77, 'Malay', 'ms'),
-(78, 'Maltese', 'mt'),
-(79, 'Burmese', 'my'),
-(80, 'Nauru', 'na'),
-(81, 'Nepali', 'ne'),
-(82, 'Dutch', 'nl'),
-(83, 'Norwegian', 'no'),
-(84, 'Occitan', 'oc'),
-(85, '(Afan)/Oromoor/Oriya', 'om'),
-(86, 'Punjabi', 'pa'),
-(87, 'Polish', 'pl'),
-(88, 'Pashto/Pushto', 'ps'),
-(89, 'Portuguese', 'pt'),
-(90, 'Quechua', 'qu'),
-(91, 'Rhaeto-Romance', 'rm'),
-(92, 'Kirundi', 'rn'),
-(93, 'Romanian', 'ro'),
-(94, 'Russian', 'ru'),
-(95, 'Kinyarwanda', 'rw'),
-(96, 'Sanskrit', 'sa'),
-(97, 'Sindhi', 'sd'),
-(98, 'Sangro', 'sg'),
-(99, 'Serbo-Croatian', 'sh'),
-(100, 'Singhalese', 'si'),
-(101, 'Slovak', 'sk'),
-(102, 'Slovenian', 'sl'),
-(103, 'Samoan', 'sm'),
-(104, 'Shona', 'sn'),
-(105, 'Somali', 'so'),
-(106, 'Albanian', 'sq'),
-(107, 'Serbian', 'sr'),
-(108, 'Siswati', 'ss'),
-(109, 'Sesotho', 'st'),
-(110, 'Sundanese', 'su'),
-(111, 'Swedish', 'sv'),
-(112, 'Swahili', 'sw'),
-(113, 'Tamil', 'ta'),
-(114, 'Telugu', 'te'),
-(115, 'Tajik', 'tg'),
-(116, 'Thai', 'th'),
-(117, 'Tigrinya', 'ti'),
-(118, 'Turkmen', 'tk'),
-(119, 'Tagalog', 'tl'),
-(120, 'Setswana', 'tn'),
-(121, 'Tonga', 'to'),
-(122, 'Turkish', 'tr'),
-(123, 'Tsonga', 'ts'),
-(124, 'Tatar', 'tt'),
-(125, 'Twi', 'tw'),
-(126, 'Ukrainian', 'uk'),
-(127, 'Urdu', 'ur'),
-(128, 'Uzbek', 'uz'),
-(129, 'Vietnamese', 'vi'),
-(130, 'Volapuk', 'vo'),
-(131, 'Wolof', 'wo'),
-(132, 'Xhosa', 'xh'),
-(133, 'Yoruba', 'yo'),
-(134, 'Chinese', 'zh'),
-(135, 'Zulu', 'zu');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `lang_active`
---
-
-CREATE TABLE `lang_active` (
-  `id_language` int(11) NOT NULL,
-  `json` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL CHECK (json_valid(`json`))
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
-
---
--- Dumping data for table `lang_active`
---
-
-INSERT INTO `lang_active` (`id_language`, `json`) VALUES
-(1, '{\r\n  \"home\": \"Home\",\r\n  \"login\":\"Login\",\r\n\"errorconnection\" :\"Error connection\",\r\n  \"logout\": \"Logout\",\r\n  \"register\": \"Registrer\",\r\n  \"name\": \"Name\",\r\n  \"lastname\": \"Lastname\",\r\n  \"firstname\": \"firstname\",\r\n  \"email\":\"Email\",\"password\":\"password\",\"validatemypersonalinformation\":\"Validate my personal information\",\"mygroup\":\"My group\",\"delete\":\"delete\",\"wrongemail\":\"Wrong email\",\"minimum8charactersoneuppercaseonelowercase\":\"Minimum 8 characters one uppercase one lowercase\",\"Logintoyouraccount\":\"Login to your account\",\"langage\": \"Language\",\"notregistered?\":\"Not registered ?\",\"donthaveanaccountyet?signup\":\"Dont have an account yet?SignUp\",\r\n  \"list\":\"List\",\r\n  \"modify\":\"Modify\",\r\n  \"add\":\"Add\",\r\n  \"Selectlanguage\":\"Select language\",\r\n  \"waitopinion\":\"Awaiting review\",\r\n  \"mydecisions\":\"My decisions\",\r\n   \"theformhasbeensubmittedsuccessfully!\": \"The form has been submitted successfully !\",\r\n  \"backtodecisions\": \"Back to decisions\",\r\n  \"description\": \"Description\",\r\n  \"describeherealltheinformationconcerningthedescription\": \"Describe here all the information concerning the description\",\r\n  \"title\": \"Title\",\r\n  \"Thisfieldisrequiredandmustcontainatleast5characters\": \"This field is required and must contain at least 5 characters.\",\r\n  \"usefulnessfortheorganization\": \"Usefulness for the organization\",\r\n  \"contextaroundthedecision\": \" Context around the decision\",\r\n  \"benefits\": \"Benefits\",\r\n  \"disadvantages\": \"Disadvantages\",\r\n  \"peopleconcerned\": \"People concerned\",\r\n  \"designatethepeopleconcerned\": \" Designate the people concerned\",\r\n  \"calendar\": \"Calendar\",\r\n  \"setdecision-makingtimeline\": \"Set decision timeline\",\r\n  \"dateoffilingofthedecision\": \"Date of filing of the decision\",\r\n  \"deadlinetogivefeedback\": \"Deadline to give feedback\",\r\n  \"deadlinetoenterdispute\": \"Deadline to enter dispute\",\r\n  \"thisdatemustbegreaterthanthedateoftoday\": \"This date must be greater than today\'s date.\",\r\n  \"dateofirstdecision\": \"Date of first decision\",\r\n  \"cancel\": \"Cancel\",\r\n  \"save\": \"Save\",\r\n  \"context\": \"Contexte\",\r\n  \"avantages\": \"Avantages\",\r\n  \"timeline\": \"Timeline\",\r\n  \"decisionmakingstarted\": \"Decision making started\",\r\n  \"deadline\": \"Deadline\",\r\n  \"firstdecision\": \"First decision\",\r\n  \"personconcerned\": \"Persons concerned\",\r\n  \"finaldecision\": \"Final decision\",\r\n  \"noonehasbeennamedasimpacted\": \"Nobody has been appointed as an impacted\",\r\n  \"noonehasbeenappointedasanexpert\": \"Nobody has been appointed as an expert\",\r\n  \"andothers\": \"and others...\",\r\n  \"thedecisionhasbeenremoved\": \"The decision has been removed\",\r\n  \"backtodecisions\": \"Back to decisions\",\r\n  \"author\": \" Author\",\r\n  \"statut\": \"Statut\",\r\n  \"depositdate\": \" Deposit date\",\r\n  \"edit\": \"Edit\",\r\n  \"numberofpersons\": \"Number of persons\",\r\n  \"language\": \"langage\",\r\n  \"notice\": \"notice\",\r\n  \"alldecisions\": \"All decisions\",\r\n  \"awaitingfirstdecision\": \"Awaiting first decision\",\r\n  \"inconflict\": \"In conflict\",\r\n  \"archiveddecisions\": \"Archived decisions\",\r\n  \"unsuccessfuldecisions\": \"Unsuccessful decisions\",\r\n  \"fileadecision\": \"File a decision\",\r\n  \"describealltheelementsofhisdecision\": \"Describe all the elements of the decision\",\r\n  \"setschedule\": \"Set schedule\",\r\n  \"endoftakingopinions\": \"End of taking opinions\",\r\n  \"thisdatemustbegreaterthantodaysdate\": \" This date must be greater than today\'s date.\",\r\n  \"endofthefirstdecision\": \"End of the first decision\",\r\n  \"endoftheconflictonthefirstdecision\": \"ENd of the conflict on the first decision\",\r\n  \"postmydecision\": \"Post my decision\",\r\n  \"through\": \"By\",\r\n  \"therewasanerrorloadingthecomponent!\": \"There was an error loading the component !\",\r\n  \"madebymakesense\": \"Made by makesens\",\r\n  \"groupsconcerned\": \"Groups concerned\",\r\n  \"userimpacted\": \"Impacted users\", \r\n  \"userexpert\": \"Experts\",\r\n  \"groupsimpacted\": \"Impacted groups\",\r\n  \"groupsexperts\": \"Experts groups\",\r\n  \"returntomakesensewebsite\":\"Back to makesense website\",\r\n  \"thedatahasbeenchangedsuccessfully!\":\"Datas has been changed successfully !\",\r\n  \"backtoprofile\":\"Back to profile\",\r\n  \"validatemydecision\":\"Validate my decision\",\r\n  \"iamconcerned\": \"I am concerned\", \r\n  \"icommented\": \"I commented\", \r\n  \"postedthe\" : \"Posted the\", \r\n\"me\": \"moi\"\r\n}'),
-(34, '{\r\n  \"home\": \"Accueil\",\r\n  \"login\": \"Connexion\",\r\n\"errorconnection\" : \"Erreur Lors de la connexion\",\r\n  \"logout\": \"Deconnexion\",\r\n  \"register\": \"S\'enregistrer\",\r\n  \"name\": \"Nom\",\r\n  \"lastname\": \"Nom de Famille\",\r\n  \"firstname\": \"Prénom\",\r\n  \"email\": \"E-mail\", \"password\":\"Mot de Passe\",\"validatemypersonalinformation\":\"Valider mes informations personnelles\", \"mygroup\":\"Mes groupes\",\"delete\":\"Supprimer\",\"wrongemail\":\"email erroné\",\"minimum8charactersoneuppercaseonelowercase\":\"Minimum 8 caracteres une majuscule une minuscule un chiffre un caractère spécial\",\"logintoyouraccount\":\"Connectez-vous à votre compte\",\"language\": \"Language\",\"notregistered?\":\"Non enregistré ?\",\"Donthaveanaccountyet?SignUp\":\"Vous n\'avez pas encore de compte S\'inscrire\",\r\n  \"list\": \"Liste\",\r\n  \"modify\": \"Modifier\",\r\n  \"add\": \"Ajouter\",\r\n  \"selectlanguage\": \"Sélectionner un langage\",\r\n  \"waitopinion\": \"En attente d\'avis\",\r\n  \"mydecisions\": \"Mes décisions\",\r\n  \"theformhasbeensubmittedsuccessfully!\": \"Le formulaire a été soumis avec succès !\",\r\n  \"backtodecisions\": \"Revenir aux décisions\",\r\n  \"description\": \"Description\",\r\n  \"describeherealltheinformationconcerningthedescription\": \"Décrire ici toutes les informations concernant la description\",\r\n  \"title\": \"Titre\",\r\n  \"Thisfieldisrequiredandmustcontainatleast5characters\": \"Ce champs est requis et doit contenir au moins 5 caractères\",\r\n  \"usefulnessfortheorganization\": \"Utilité pour l\'organisation\",\r\n  \"contextaroundthedecision\": \" Contexte autour de la décision\",\r\n  \"benefits\": \"Bénéfices\",\r\n  \"disadvantages\": \"Inconvénients\",\r\n  \"peopleconcerned\": \"Personnes concernées\",\r\n  \"designatethepeopleconcerned\": \" Désigner les personnes concernées (impactées ou expertes) par la décision\",\r\n  \"calendar\": \"Calendrier\",\r\n  \"setdecision-makingtimeline\": \"Définir le calendrier de la prise de décision\",\r\n  \"dateoffilingofthedecision\": \"Date de dépôt de la décision\",\r\n  \"deadlinetogivefeedback\": \"Deadline pour donner son avis\",\r\n  \"deadlinetoenterdispute\": \"Deadline pour entrer en conflit\",\r\n  \"thisdatemustbegreaterthanthedateoftoday\": \" Cette date doit être supérieure à la date d\'aujourd\'hui\",\r\n  \"dateofirstdecision\": \"Date de prise de la première décision\",\r\n  \"cancel\": \"Annuler\",\r\n  \"save\": \"Sauvegarder\",\r\n  \"context\": \"Contexte\",\r\n  \"avantages\": \"Avantages\",\r\n  \"timeline\": \"Chronologie\",\r\n  \"decisionmakingstarted\": \"Prise de décision commencée\",\r\n  \"deadline\": \"Deadline pour donner son avis\",\r\n  \"firstdecision\": \"Première Décision\",\r\n  \"\": \"Les personnes concernées\",\r\n  \"finaldecision\": \"Décision final\",\r\n  \"noonehasbeennamedasimpacted\": \"Personne n\'a été désigné comme étant impacté\",\r\n  \"noonehasbeenappointedasanexpert\": \"Personne n\'a été désigné expert\",\r\n  \"andothers\": \"et autres...\",\r\n  \"thedecisionhasbeenremoved\": \"La décision a bien été supprimée\",\r\n  \"backtodecisions\": \"Revenir aux décisions\",\r\n  \"author\": \" Auteur\",\r\n  \"statut\": \"Statut\",\r\n  \"depositdate\": \" Date de dépôt\",\r\n  \"edit\": \"Editer\",\r\n  \"numberofpersons\": \"Nombre de personnes\",\r\n  \"language\": \"langage\",\r\n  \"notice\": \"avis\",\r\n  \"alldecisions\": \"Toutes les décisions\",\r\n  \"awaitingfirstdecision\": \"En attente première décision\",\r\n  \"inconflict\": \"En conflit\",\r\n  \"archiveddecisions\": \"Décisions archivées\",\r\n  \"unsuccessfuldecisions\": \"Décisions non abouties\",\r\n  \"fileadecision\": \"Déposer une décision\",\r\n  \"describealltheelementsofhisdecision\": \"Décrire tous les éléments de sa décision\",\r\n  \"setschedule\": \"Définir le calendrier\",\r\n  \"endoftakingopinions\": \"Fin de la prise des avis\",\r\n  \"thisdatemustbegreaterthantodaysdate\": \" Cette date doit être supérieure à la date d\'aujourd\'hui.\",\r\n  \"endofthefirstdecision\": \"Fin de la première décision\",\r\n  \"endoftheconflictonthefirstdecision\": \"Fin du conflit sur la première décision\",\r\n  \"postmydecision\": \"Poster ma décision\",\r\n  \"through\": \"Par\",\r\n  \"therewasanerrorloadingthecomponent!\": \"Il y a eu une erreur lors du chargement du composant !\",\r\n  \"madebymakesense\": \"Réalisé par makesens\",\r\n  \"groupsconcerned\": \"Groupes concernés\",\r\n  \"userimpacted\": \"Personnes impactées\", \r\n  \"userexpert\": \"Experts\",\r\n  \"groupsimpacted\": \"Groupes impactés\",\r\n  \"groupsexperts\": \"Groupes experts\",\r\n  \"returntomakesensewebsite\":\"Retour au site de makesense\",\r\n  \"thedatahasbeenchangedsuccessfully!\":\"Les données ont été modifiées avec succès !\",\r\n  \"backtoprofile\":\"Revenir au profil\",\r\n  \"validatemydecision\":\"Valider ma décision\",\r\n  \"iamconcerned\": \"Je suis concerné\", \r\n  \"icommented\": \"J\'ai commenté\", \r\n  \"postedthe\" : \"Posté le\",\r\n\"me\": \"Moi\"\r\n}');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `services`
---
-
-CREATE TABLE `services` (
-  `id` int(11) NOT NULL,
-  `name` varchar(45) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+INSERT INTO `speedruns_katas` (`id_speedruns`, `id_katas`) VALUES
+(1, 1),
+(1, 2),
+(1, 3),
+(1, 4),
+(2, 8),
+(2, 9),
+(2, 10),
+(2, 11);
 
 -- --------------------------------------------------------
 
@@ -390,7 +201,6 @@ CREATE TABLE `users` (
   `firstname` varchar(45) NOT NULL,
   `email` varchar(254) NOT NULL,
   `password` varchar(255) NOT NULL,
-  `serviceId` int(11) DEFAULT NULL,
   `admin` tinyint(1) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci COMMENT='Table utilisateurs';
 
@@ -398,174 +208,95 @@ CREATE TABLE `users` (
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `lastname`, `firstname`, `email`, `password`, `serviceId`, `admin`) VALUES
-(7, 'Boudjelal', 'Yannick', 'ndjbouman@gmail.com', '$argon2id$v=19$m=65536,t=3,p=4$EzOn31da2aJmu5M4dabpZQ$Q9azHhIvDyh9qFwDDGdiVzNc6ax+AxS+Oqv1UAWxu8I', NULL, 1),
-(10, 'Kebdani', 'Najim', 'najimkeb31@gmail.com', '$argon2id$v=19$m=65536,t=3,p=4$Pkxev+bq4/CjXUxugQkpwA$OdAyVQSD2IhOzx467nDJoAl5YnupmxCHSBRY3HY/zKA', NULL, 1),
-(40, 'MALBERT', 'Stéphanie', 'stephanie.malbert@live.fr', '$argon2id$v=19$m=65536,t=3,p=4$jUlOZNV/X8oGyfl+1wtHPg$39SrsiBykuKTWXHmK3mu29u6h0J9ESA3x+eYaNq5tag', NULL, 1),
-(44, 'Schneider', 'Marie-Hermine', 'test@mail.fr', '$argon2id$v=19$m=65536,t=3,p=4$AUF1VA7tYv2jqUcS+zO3mw$E2HA7TXI3oWPdWf4nKmFBQe/qZ6oySjNtDSaG3iOvPk', NULL, 1),
-(45, 'Vigneron', 'Marie', 'vigneron.mh@gmail.com', '$argon2id$v=19$m=65536,t=3,p=4$IL1ZJW1oiVfzkkVfuMG2vQ$sODYz+9NIu7g4wVEXJ4OqJZ2tO8bwICkopLwDv1SjSo', NULL, 1);
+INSERT INTO `users` (`id`, `lastname`, `firstname`, `email`, `password`, `admin`) VALUES
+(10, 'Boudjelal', 'Yannick', 'ndjbouman@gmail.com', '$argon2id$v=19$m=65536,t=3,p=4$QPk8kIHHcrBw9X/jebUElw$QkSO4zIUhaFpFUli/s4TXujGA01LCgIMOuH0vhqrTA0', 1),
+(11, 'Freyssier', 'Joor', 'joor@gmail.com', '$argon2id$v=19$m=65536,t=3,p=4$5sbMCApFwUw8831yyUcgeg$yjlEWsLcuPQSCC1GxsXcMnXlCTRLVdptCQb4aH1GlHs', 0),
+(12, 'Timmer', 'Romain', 'timmer@gmail.com', '$argon2id$v=19$m=65536,t=3,p=4$C32mg/93s8UVmWu1KY6UGw$ckk+RHbAqpqI1pPCzBlenPSWd7nTRe6RH3zFcU0qdb8', 0),
+(13, 'lolo', 'lolo', 'duclos.laurent@gmail.com', '$argon2id$v=19$m=65536,t=3,p=4$CsGH7MjTc3ZwEGxriBV+UA$pilLVeQxTBOsr/0ZWXFC7iIpTqA3gPihOut2JJzWtI0', 0);
 
 --
 -- Indexes for dumped tables
 --
 
 --
--- Indexes for table `comments`
+-- Indexes for table `katas`
 --
-ALTER TABLE `comments`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `fk_comment_user_writer` (`id_user_writer`),
-  ADD KEY `fk_comment_decision` (`id_decision`);
-
---
--- Indexes for table `decisions`
---
-ALTER TABLE `decisions`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `fk_decision_user_creator` (`id_user_creator`);
-
---
--- Indexes for table `decisions_experts`
---
-ALTER TABLE `decisions_experts`
-  ADD KEY `fk_decisions_experts_decision` (`id_decisions`),
-  ADD KEY `fk_decisions_experts_user` (`id_user_expert`);
-
---
--- Indexes for table `decisions_impacts`
---
-ALTER TABLE `decisions_impacts`
-  ADD KEY `fk_decisions_impacts_decisions` (`id_decisions`),
-  ADD KEY `fk_decisions_impacts_users` (`id_user_impact`);
-
---
--- Indexes for table `groups`
---
-ALTER TABLE `groups`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `name_UNIQUE` (`name`);
-
---
--- Indexes for table `group_user`
---
-ALTER TABLE `group_user`
-  ADD KEY `id_user` (`id_user`),
-  ADD KEY `id_group` (`id_groups`);
-
---
--- Indexes for table `languages`
---
-ALTER TABLE `languages`
+ALTER TABLE `katas`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `lang_active`
+-- Indexes for table `scores`
 --
-ALTER TABLE `lang_active`
-  ADD UNIQUE KEY `fk_lang_active` (`id_language`) USING BTREE;
+ALTER TABLE `scores`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_user_scores` (`id_users`),
+  ADD KEY `fk_katas_scores` (`id_katas`),
+  ADD KEY `fk_speedruns_runs` (`id_speedruns`);
 
 --
--- Indexes for table `services`
+-- Indexes for table `speedruns`
 --
-ALTER TABLE `services`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `name_UNIQUE` (`name`);
+ALTER TABLE `speedruns`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `speedruns_katas`
+--
+ALTER TABLE `speedruns_katas`
+  ADD KEY `fk_speedruns_katas` (`id_speedruns`),
+  ADD KEY `fk_katas_speedruns` (`id_katas`);
 
 --
 -- Indexes for table `users`
 --
 ALTER TABLE `users`
   ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `email_UNIQUE` (`email`),
-  ADD KEY `service_id` (`serviceId`);
+  ADD UNIQUE KEY `email` (`email`);
 
 --
 -- AUTO_INCREMENT for dumped tables
 --
 
 --
--- AUTO_INCREMENT for table `comments`
+-- AUTO_INCREMENT for table `katas`
 --
-ALTER TABLE `comments`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=52;
+ALTER TABLE `katas`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
--- AUTO_INCREMENT for table `decisions`
+-- AUTO_INCREMENT for table `scores`
 --
-ALTER TABLE `decisions`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=178;
+ALTER TABLE `scores`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=77;
 
 --
--- AUTO_INCREMENT for table `groups`
+-- AUTO_INCREMENT for table `speedruns`
 --
-ALTER TABLE `groups`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=68;
-
---
--- AUTO_INCREMENT for table `languages`
---
-ALTER TABLE `languages`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=136;
-
---
--- AUTO_INCREMENT for table `services`
---
-ALTER TABLE `services`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `speedruns`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- Constraints for dumped tables
 --
 
 --
--- Constraints for table `comments`
+-- Constraints for table `scores`
 --
-ALTER TABLE `comments`
-  ADD CONSTRAINT `fk_comment_decision` FOREIGN KEY (`id_decision`) REFERENCES `decisions` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `fk_comment_user_writer` FOREIGN KEY (`id_user_writer`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE;
+ALTER TABLE `scores`
+  ADD CONSTRAINT `fk_katas_scores` FOREIGN KEY (`id_katas`) REFERENCES `katas` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_speedruns_runs` FOREIGN KEY (`id_speedruns`) REFERENCES `speedruns` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_user_scores` FOREIGN KEY (`id_users`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Constraints for table `decisions`
+-- Constraints for table `speedruns_katas`
 --
-ALTER TABLE `decisions`
-  ADD CONSTRAINT `fk_decision_user_creator` FOREIGN KEY (`id_user_creator`) REFERENCES `users` (`id`) ON DELETE SET NULL ON UPDATE CASCADE;
-
---
--- Constraints for table `decisions_experts`
---
-ALTER TABLE `decisions_experts`
-  ADD CONSTRAINT `fk_decisions_experts_decision` FOREIGN KEY (`id_decisions`) REFERENCES `decisions` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `fk_decisions_experts_user` FOREIGN KEY (`id_user_expert`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Constraints for table `decisions_impacts`
---
-ALTER TABLE `decisions_impacts`
-  ADD CONSTRAINT `fk_decisions_impacts_decisions` FOREIGN KEY (`id_decisions`) REFERENCES `decisions` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `fk_decisions_impacts_users` FOREIGN KEY (`id_user_impact`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Constraints for table `group_user`
---
-ALTER TABLE `group_user`
-  ADD CONSTRAINT `fk_group_user` FOREIGN KEY (`id_groups`) REFERENCES `groups` (`id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `fk_user_group` FOREIGN KEY (`id_user`) REFERENCES `users` (`id`) ON DELETE CASCADE;
-
---
--- Constraints for table `lang_active`
---
-ALTER TABLE `lang_active`
-  ADD CONSTRAINT `fk_lang_active` FOREIGN KEY (`id_language`) REFERENCES `languages` (`id`) ON UPDATE CASCADE;
-
---
--- Constraints for table `users`
---
-ALTER TABLE `users`
-  ADD CONSTRAINT `fk_services_user` FOREIGN KEY (`serviceId`) REFERENCES `services` (`id`) ON DELETE SET NULL ON UPDATE CASCADE;
+ALTER TABLE `speedruns_katas`
+  ADD CONSTRAINT `fk_katas_speedruns` FOREIGN KEY (`id_katas`) REFERENCES `katas` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_speedruns_katas` FOREIGN KEY (`id_speedruns`) REFERENCES `speedruns` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
