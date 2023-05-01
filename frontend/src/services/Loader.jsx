@@ -3,9 +3,9 @@ import PropTypes from "prop-types";
 import Spinner from "../components/Spinner";
 
 function Loader({ foldername, filename }) {
-  console.log(`./${foldername}/${filename}.jsx`);
+  console.log(`./${foldername}${filename}.jsx`);
   const DynamicComponent = lazy(() =>
-    import(`./${foldername}/${filename}.jsx`)
+    import(`./${foldername}${filename}.jsx`)
   );
 
   return (
