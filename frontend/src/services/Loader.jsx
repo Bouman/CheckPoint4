@@ -5,14 +5,16 @@ import Spinner from "../components/Spinner";
 function Loader({ foldername, filename }) {
   console.log(`./${foldername}/${filename}.jsx`);
 
-  let url_import = ``;
-  if(import.meta.env.VITE_ENV === "prod") {
-    url_import = `/${foldername}`;
+  let DynamicComponent;
+  if(import.meta.env.VITE_ENV === "dev") {
+    const DynamicComponent = lazy(() =>
+      import(`./../${foldername}/${filename}.jsx`)
+    );
+  } else {
+    const DynamicComponent = lazy(() =>
+      import(`./assets/${filename}.jsx`)
+    );
   }
-
-  const DynamicComponent = lazy(() =>
-    import(`./../${foldername}/${filename}.jsx`)
-  );
 
   return (
     <Suspense fallback={<Spinner />}>
