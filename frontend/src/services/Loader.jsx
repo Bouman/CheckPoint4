@@ -13,7 +13,7 @@ function Loader({ foldername, filename }) {
 
   return (
     <Suspense fallback={<Spinner />}>
-      {import.meta.env.VITE_ENV === "dev" && DynamicComponent ?
+      {import.meta.env.VITE_ENV === "dev" ?
         <DynamicComponent />
         :
         <ProdDynamicComponent />
