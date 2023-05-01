@@ -4,10 +4,10 @@ import Spinner from "../components/Spinner";
 
 function Loader({ foldername, filename }) {
 
-    DynamicComponent = lazy(() =>
+    const DynamicComponent = lazy(() =>
       import(`./../${foldername}/${filename}.jsx`)
     );
-    ProdDynamicComponent = lazy(() =>
+    const ProdDynamicComponent = lazy(() =>
       import(`./imports/${filename}.js`)
     );
 
