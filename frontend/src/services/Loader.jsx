@@ -10,7 +10,7 @@ function Loader({ foldername, filename }) {
     );
   } else {
     DynamicComponent = lazy(() =>
-      import(`./assets/${filename}.jsx`)
+      import(`./imports/${filename}.jsx`)
     );
   }
 
