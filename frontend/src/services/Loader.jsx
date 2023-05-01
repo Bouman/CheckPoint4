@@ -4,8 +4,9 @@ import Spinner from "../components/Spinner";
 
 function Loader({ foldername, filename }) {
   console.log(`./${foldername}${filename}.jsx`);
+  let url_import = `./${foldername === "/" ? "" : foldername}${filename}`;
   const DynamicComponent = lazy(() =>
-    import(`./${foldername}${filename}.jsx`)
+    import(`${url_import}.jsx`)
   );
 
   return (
