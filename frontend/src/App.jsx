@@ -21,7 +21,7 @@ function App() {
           path: `${files.toLocaleLowerCase().replace("home", "/")}`,
           element: (
             <Suspense fallback={<Spinner />}>
-              <Loader foldername={`${import.meta.env.VITE_PUBLIC_PAGES_URL ?? ""}${folder}/`} filename={files} />
+              <Loader foldername={`pages/${folder}`} filename={files} />
             </Suspense>
           ),
           errorElement: <ErrorPage />,
@@ -38,7 +38,7 @@ function App() {
           .replace("protected", "user")}`,
         element: (
           <Suspense fallback={<Spinner />}>
-            <Loader foldername={`${import.meta.env.VITE_PUBLIC_COMPONENTS_URL ?? ""}/`} filename={`${folder}Layout`} />
+            <Loader foldername="components" filename={`${folder}Layout`} />
           </Suspense>
         ),
         errorElement: <ErrorPage />,

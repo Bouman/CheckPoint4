@@ -3,10 +3,15 @@ import PropTypes from "prop-types";
 import Spinner from "../components/Spinner";
 
 function Loader({ foldername, filename }) {
-  console.log(`./${foldername}${filename}.jsx`);
-  let url_import = `./${foldername === "/" ? "" : foldername}${filename}`;
+  console.log(`./${foldername}/${filename}.jsx`);
+
+  let url_import = ``;
+  if(import.meta.env.VITE_ENV === "prod") {
+    url_import = `/${foldername}`;
+  }
+
   const DynamicComponent = lazy(() =>
-    import(`${url_import}.jsx`)
+    import(`./../${foldername}/${filename}.jsx`)
   );
 
   return (
