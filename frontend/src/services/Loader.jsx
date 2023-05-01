@@ -3,20 +3,21 @@ import PropTypes from "prop-types";
 import Spinner from "../components/Spinner";
 
 function Loader({ foldername, filename }) {
-  let DynamicComponent;
-  if(import.meta.env.VITE_ENV === "dev") {
+
     DynamicComponent = lazy(() =>
       import(`./../${foldername}/${filename}.jsx`)
     );
-  } else {
-    DynamicComponent = lazy(() =>
+    ProdDynamicComponent = lazy(() =>
       import(`./imports/${filename}.js`)
     );
-  }
 
   return (
     <Suspense fallback={<Spinner />}>
-      <DynamicComponent />
+      {import.meta.env.VITE_ENV === "dev" ?
+        <DynamicComponent />
+        :
+        <ProdDynamicComponent />
+      }
     </Suspense>
   );
 }
